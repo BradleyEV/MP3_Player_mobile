@@ -1,0 +1,27 @@
+<DownloaderLayout>:
+    orientation: "vertical"
+    padding: 20
+    spacing: 10
+
+    Label:
+        text: "Enter YouTube URL:"
+        size_hint_y: None
+        height: 30
+
+    TextInput:
+        id: url_input
+        multiline: False
+        size_hint_y: None
+        height: 40
+
+    Button:
+        text: "Download MP3"
+        size_hint_y: None
+        height: 50
+        on_press: root.download(self)
+
+    Label:
+        id: status_label
+        text: ""
+        size_hint_y: None
+        height: 40
