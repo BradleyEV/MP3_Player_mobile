@@ -31,6 +31,9 @@ jobs:
           pip install Cython virtualenv
 
       - name: Install Android SDK Build Tools (AIDL)
+        run: |
+          yes | sdkmanager --licenses || true
+          yes | sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
       - name: Install Buildozer and initialize
         run: |
