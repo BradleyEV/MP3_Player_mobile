@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: python:3.10-bullseye  # 🧰 Root access, includes apt, python3.10
+    container: buildpack-deps:bullseye
 
     env:
       ANDROID_HOME: /github/workspace/android-sdk
