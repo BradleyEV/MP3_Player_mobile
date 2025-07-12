@@ -9,23 +9,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: buildpack-deps:bullseye
 
     env:
-      ANDROID_HOME: /github/workspace/android-sdk
-      ANDROID_SDK_ROOT: /github/workspace/android-sdk
-      PATH: /github/workspace/android-sdk/cmdline-tools/latest/bin:/github/workspace/android-sdk/platform-tools:$PATH
+      ANDROID_HOME: ${{ github.workspace }}/android-sdk
+      ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
+      PATH: ${{ github.workspace }}/android-sdk/cmdline-tools/latest/bin:${{ github.workspace }}/android-sdk/platform-tools:$PATH
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install system packages
+      - name: Install system dependencies
         run: |
-          apt-get update
-          apt-get install -y python3 python3-pip openjdk-17-jdk wget unzip \
+          sudo apt-get update
+          sudo apt-get install -y openjdk-17-jdk wget unzip python3-pip build-essential \
             libffi-dev libssl-dev libsqlite3-dev zlib1g-dev libncurses5-dev \
-            libgdbm-dev libnss3-dev libreadline-dev libbz2-dev build-essential
+            libgdbm-dev libnss3-dev libreadline-dev libbz2-dev git zip
 
       - name: Install Android SDK cmdline tools
         run: |
@@ -37,27 +36,10 @@ jobs:
 
       - name: Accept SDK licenses and install components
         run: |
-          apt-get install -y yes
-          yes | sdkmanager --sdk_root=$ANDROID_HOME --licenses
-          sdkmanager --sdk_root=$ANDROID_HOME \
+          yes | sdkmanager --sdk_root=${ANDROID_HOME} --licenses
+          sdkmanager --sdk_root=${ANDROID_HOME} \
             "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
       - name: Install Python dependencies
         run: |
           pip3 install --upgrade pip
-          pip3 install Cython virtualenv buildozer
-
-      - name: Ensure buildozer.spec exists
-        run: |
-          if [ ! -f buildozer.spec ]; then
-            buildozer init
-          fi
-
-      - name: Build APK
-        run: buildozer android debug
-
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: mp3player-apk
-          path: bin/*.apk
