@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: python:3.10-bullseye
 
     env:
       ANDROID_HOME: ${{ github.workspace }}/android-sdk
