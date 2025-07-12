@@ -18,6 +18,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+          with:
+          fetch-depth: 0           # Enables full Git history
+          submodules: false
+          persist-credentials: false
+          clean: true
+          lfs: false
+          set-safe-directory: true
 
       - name: Install system dependencies
         run: |
