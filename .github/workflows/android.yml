@@ -9,6 +9,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: python:3.10-bullseye  # 🧰 Includes bash, apt, etc.
+
+    steps:
+      - name: Install basic system tools
+        run: |
+          apt-get update
+          apt-get install -y tar git unzip wget openjdk-17-jdk python3-pip build-essential \
+            libffi-dev libssl-dev libsqlite3-dev zlib1g-dev libncurses5-dev \
+            libgdbm-dev libnss3-dev libreadline-dev libbz2-dev
+
+      - name: Checkout code
+        uses: actions/checkout@v4
 
     defaults:
       run:
