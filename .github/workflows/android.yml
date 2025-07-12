@@ -1,6 +1,7 @@
 name: Build Kivy APK
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
