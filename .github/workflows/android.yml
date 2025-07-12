@@ -16,6 +16,9 @@ jobs:
       PATH: ${{ github.workspace }}/android-sdk/cmdline-tools/latest/bin:${{ github.workspace }}/android-sdk/platform-tools:$PATH
 
     steps:
+      - name: Install tar
+        run: sudo apt-get update && sudo apt-get install -y tar
+
       - name: Checkout code
         uses: actions/checkout@v4
 
